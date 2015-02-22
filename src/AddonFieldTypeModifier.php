@@ -24,6 +24,8 @@ class AddonFieldTypeModifier extends FieldTypeModifier
     {
         if ($value instanceof Addon) {
             $value = get_class($value);
+        } else {
+            $value = null;
         }
 
         return $value;
@@ -37,8 +39,10 @@ class AddonFieldTypeModifier extends FieldTypeModifier
      */
     public function restore($value)
     {
-        if (!is_null($value)) {
+        if (class_exists($value)) {
             $value = app($value);
+        } else {
+            $value = null;
         }
 
         return $value;
