@@ -1,0 +1,9 @@
+<select name="{{ field_type.getInputName() }}" class="form-control select2">
+
+    {% for option in field_type.options %}
+
+        <option value="{{ option.value }}" {{ option.selected ? 'selected' }}>{{ option.title }}</option>
+
+    {% endfor %}
+
+</select>
