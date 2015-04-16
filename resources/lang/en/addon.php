@@ -2,5 +2,5 @@
 
 return [
     'name'        => 'Addon',
-    'description' => 'An addon relation field type.'
+    'description' => 'An addon dropdown field type.'
 ];

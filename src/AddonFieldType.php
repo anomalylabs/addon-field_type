@@ -1,6 +1,7 @@
 <?php namespace Anomaly\AddonFieldType;
 
-use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
@@ -28,36 +29,15 @@ class AddonFieldType extends FieldType
      */
     public function getOptions()
     {
-        $options = [];
+        $type = ucfirst(camel_case(array_get($this->getConfig(), 'type')));
 
-        foreach ($this->getTypeOptions() as $type) {
-            if ($type instanceof Addon) {
-                $options[$type->getNamespace()] = $type;
-            }
+        /* @var AddonCollection $addons */
+        $addons = app('Anomaly\Streams\Platform\Addon\\' . $type . '\\' . $type . 'Collection');
+
+        if ($addons instanceof ExtensionCollection && $search = array_get($this->getConfig(), 'search')) {
+            $addons = $addons->search($search);
         }
 
-        return $options;
-    }
-
-    /**
-     * Get options from the collection.
-     *
-     * @return array
-     */
-    protected function getTypeOptions()
-    {
-        $type = array_get($this->config, 'type');
-
-        switch ($type) {
-            case 'field_type':
-                $collection = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection';
-                break;
-
-            default:
-                $collection = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection';
-                break;
-        }
-
-        return app($collection)->all();
+        return $addons->lists('name', 'namespace');
     }
 }

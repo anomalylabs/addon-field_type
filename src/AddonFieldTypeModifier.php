@@ -1,6 +1,7 @@
 <?php namespace Anomaly\AddonFieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier;
 
 /**
@@ -23,9 +24,7 @@ class AddonFieldTypeModifier extends FieldTypeModifier
     public function modify($value)
     {
         if ($value instanceof Addon) {
-            $value = get_class($value);
-        } else {
-            $value = null;
+            $value = $value->getNamespace();
         }
 
         return $value;
@@ -39,10 +38,8 @@ class AddonFieldTypeModifier extends FieldTypeModifier
      */
     public function restore($value)
     {
-        if (class_exists($value)) {
-            $value = app($value);
-        } else {
-            $value = null;
+        if ($value && $addons = (new AddonCollection())->merged()) {
+            return $addons->get($value);
         }
 
         return $value;

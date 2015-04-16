@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'related' => [
+    'type' => [
         'type' => 'anomaly.field_type.select'
     ]
 ];
