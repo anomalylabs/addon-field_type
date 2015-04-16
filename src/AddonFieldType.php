@@ -29,7 +29,7 @@ class AddonFieldType extends FieldType
      */
     public function getOptions()
     {
-        $type = ucfirst(camel_case(array_get($this->getConfig(), 'type')));
+        $type = ucfirst(camel_case(str_singular(array_get($this->getConfig(), 'type'))));
 
         /* @var AddonCollection $addons */
         $addons = app('Anomaly\Streams\Platform\Addon\\' . $type . '\\' . $type . 'Collection');
@@ -38,6 +38,19 @@ class AddonFieldType extends FieldType
             $addons = $addons->search($search);
         }
 
-        return $addons->lists('name', 'namespace');
+        return array_merge(
+            [null => trans($this->getPlaceholder())],
+            $addons->lists('name', 'namespace')
+        );
+    }
+
+    /**
+     * Get the placeholder.
+     *
+     * @return null|string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder ?: 'anomaly.field_type.addon::input.placeholder';
     }
 }
