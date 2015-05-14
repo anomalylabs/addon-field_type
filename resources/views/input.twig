@@ -4,7 +4,7 @@
         {{ field_type.disabled ? 'disabled' }}>
 
     {% for value, option in field_type.options %}
-        <option value="{{ value }}" {{ value == field_type.value ? 'selected' }}>{{ trans(option) }}</option>
+        <option value="{{ value }}" {{ value == field_type.value.namespace ? 'selected' }}>{{ trans(option) }}</option>
     {% endfor %}
 
 </select>
