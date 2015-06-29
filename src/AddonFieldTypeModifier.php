@@ -42,6 +42,6 @@ class AddonFieldTypeModifier extends FieldTypeModifier
             return $addons->get($value);
         }
 
-        return $value;
+        return null;
     }
 }
