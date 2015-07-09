@@ -3,10 +3,9 @@
     "type": "streams-addon",
     "description": "An addon relation field type.",
     "keywords": [
-        "streams-addon",
-        "relationship",
-        "pyrocms",
-        "laravel"
+        "streams field type",
+        "streams addon",
+        "field type"
     ],
     "homepage": "http://anomaly.is/",
     "license": "MIT",
@@ -25,11 +24,5 @@
         "psr-4": {
             "Anomaly\\AddonFieldType\\": "src/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
-    "minimum-stability": "dev"
+    }
 }

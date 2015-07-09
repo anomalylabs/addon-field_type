@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class AddonFieldType
@@ -29,13 +30,17 @@ class AddonFieldType extends FieldType
      */
     public function getOptions()
     {
-        $type = ucfirst(camel_case(str_singular(array_get($this->getConfig(), 'type'))));
+        // Get all addons.
+        $addons = (new AddonCollection())->merged()->{snake_case(str_plural(array_get($this->getConfig(), 'type')))}();
 
-        /* @var AddonCollection $addons */
-        $addons = app('Anomaly\Streams\Platform\Addon\\' . $type . '\\' . $type . 'Collection');
-
+        // Search extensions if desired.
         if ($addons instanceof ExtensionCollection && $search = array_get($this->getConfig(), 'search')) {
             $addons = $addons->search($search);
+        }
+
+        // Limit to theme type if desired.
+        if ($addons instanceof ThemeCollection && $type = array_get($this->getConfig(), 'theme_type')) {
+            $addons = $addons->{$type}();
         }
 
         return array_merge(

@@ -24,7 +24,7 @@ class AddonFieldTypeModifier extends FieldTypeModifier
     public function modify($value)
     {
         if ($value instanceof Addon) {
-            $value = $value->getNamespace();
+            return $value->getNamespace();
         }
 
         return $value;
@@ -34,10 +34,14 @@ class AddonFieldTypeModifier extends FieldTypeModifier
      * Restore the value.
      *
      * @param  $value
-     * @return mixed
+     * @return null|Addon
      */
     public function restore($value)
     {
+        if ($value instanceof Addon) {
+            return $value;
+        }
+
         if ($value && $addons = (new AddonCollection())->merged()) {
             return $addons->get($value);
         }
