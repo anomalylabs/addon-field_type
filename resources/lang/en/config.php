@@ -3,7 +3,8 @@
 return [
     'type'       => [
         'label'        => 'Addon Type',
-        'instructions' => 'What type of addons would you like to include?'
+        'instructions' => 'What type of addons would you like to include?',
+        'placeholder'  => 'All Types'
     ],
     'search'     => [
         'label'        => 'Search Extensions',

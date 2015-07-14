@@ -31,7 +31,12 @@ class AddonFieldType extends FieldType
     public function getOptions()
     {
         // Get all addons.
-        $addons = (new AddonCollection())->merged()->{snake_case(str_plural(array_get($this->getConfig(), 'type')))}();
+        $addons = (new AddonCollection())->merged();
+
+        // Restrict to type if desired.
+        if ($type = array_get($this->getConfig(), 'type')) {
+            $addons = $addons->{snake_case(str_plural($type))}();
+        }
 
         // Search extensions if desired.
         if ($addons instanceof ExtensionCollection && $search = array_get($this->getConfig(), 'search')) {
