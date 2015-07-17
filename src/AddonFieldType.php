@@ -50,7 +50,7 @@ class AddonFieldType extends FieldType
 
         return array_merge(
             [null => trans($this->getPlaceholder())],
-            $addons->lists('name', 'namespace')
+            $addons->lists('name', 'namespace')->all()
         );
     }
 
