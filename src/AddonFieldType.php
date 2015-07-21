@@ -24,6 +24,13 @@ class AddonFieldType extends FieldType
     protected $inputView = 'anomaly.field_type.addon::input';
 
     /**
+     * The filter view.
+     *
+     * @var string
+     */
+    protected $filterView = 'anomaly.field_type.addon::filter';
+
+    /**
      * Get the options.
      *
      * @return array
