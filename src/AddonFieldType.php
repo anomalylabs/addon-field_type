@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
@@ -48,6 +49,11 @@ class AddonFieldType extends FieldType
         // Search extensions if desired.
         if ($addons instanceof ExtensionCollection && $search = array_get($this->getConfig(), 'search')) {
             $addons = $addons->search($search);
+        }
+
+        // Enabled only if extension or module.
+        if ($addons instanceof ExtensionCollection || $addons instanceof ModuleCollection) {
+            $addons = $addons->enabled();
         }
 
         // Limit to theme type if desired.
