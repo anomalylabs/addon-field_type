@@ -1,10 +1,7 @@
 <?php namespace Anomaly\AddonFieldType;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
+use Anomaly\AddonFieldType\Command\BuildOptions;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class AddonFieldType
@@ -32,39 +29,46 @@ class AddonFieldType extends FieldType
     protected $filterView = 'anomaly.field_type.addon::filter';
 
     /**
+     * The field type config.
+     *
+     * @var array
+     */
+    protected $config = [
+        'handler' => 'Anomaly\AddonFieldType\AddonFieldTypeOptions@handle'
+    ];
+
+    /**
+     * The dropdown options.
+     *
+     * @var null|array
+     */
+    protected $options = null;
+
+    /**
      * Get the options.
      *
      * @return array
      */
     public function getOptions()
     {
-        // Get all addons.
-        $addons = (new AddonCollection())->merged();
-
-        // Restrict to type if desired.
-        if ($type = array_get($this->getConfig(), 'type')) {
-            $addons = $addons->{snake_case(str_plural($type))}();
+        if ($this->options === null) {
+            $this->dispatch(new BuildOptions($this));
         }
 
-        // Search extensions if desired.
-        if ($addons instanceof ExtensionCollection && $search = array_get($this->getConfig(), 'search')) {
-            $addons = $addons->search($search);
-        }
+        return array_filter([null => $this->getPlaceholder()] + (array)$this->options);
+    }
 
-        // Enabled only if extension or module.
-        if ($addons instanceof ExtensionCollection || $addons instanceof ModuleCollection) {
-            $addons = $addons->enabled();
-        }
+    /**
+     * Set the options.
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
 
-        // Limit to theme type if desired.
-        if ($addons instanceof ThemeCollection && $type = array_get($this->getConfig(), 'theme_type')) {
-            $addons = $addons->{$type}();
-        }
-
-        return array_merge(
-            [null => trans($this->getPlaceholder())],
-            $addons->lists('name', 'namespace')->all()
-        );
+        return $this;
     }
 
     /**
