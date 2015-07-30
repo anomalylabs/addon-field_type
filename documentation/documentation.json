@@ -1,0 +1,16 @@
+{
+    "general": {
+        "title": "General",
+        "pages": {
+            "introduction": {
+                "title": "Introduction"
+            },
+            "configuration": {
+                "title": "Configuration"
+            },
+            "output": {
+                "title": "Output"
+            }
+        }
+    }
+}

@@ -2,19 +2,17 @@
 
 **Example Definition:**
 
-```
-protected $fields = [
-    'example' => [
-        'type'   => 'anomaly.field_type.addon',
-        'config' => [
-            'type'       => null,
-            'search'     => null,
-            'theme_type' => null,
-            'handler'    => 'Anomaly\AddonFieldType\AddonFieldTypeOptions@handle'
+    protected $fields = [
+        'example' => [
+            'type'   => 'anomaly.field_type.addon',
+            'config' => [
+                'type'       => null,
+                'search'     => null,
+                'theme_type' => null,
+                'handler'    => 'Anomaly\AddonFieldType\AddonFieldTypeOptions@handle'
+            ]
         ]
-    ]
-];
-```
+    ];
 
 ### `type`
 
