@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-*anomaly.field_type.addon*
+`anomaly.field_type.addon`
 
 The addon field type provides a addons dropdown input.
 
