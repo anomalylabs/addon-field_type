@@ -6,6 +6,11 @@
 
 The addon field type provides a addons dropdown input.
 
+- [Configuration](#configuration)
+- [Output](#output)
+
+
+<a name="configuration"></a>
 # Configuration
 
 **Example Definition:**
@@ -46,6 +51,8 @@ The handler is responsible for setting the available options on the field type i
 
 **NOTE:** This option can not be through the GUI configuration. 
 
+
+<a name="output"></a>
 # Output
 
 This field type returns the addon instance as a value. You may access the object as normal.
