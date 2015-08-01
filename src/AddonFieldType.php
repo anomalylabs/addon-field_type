@@ -55,7 +55,7 @@ class AddonFieldType extends FieldType
             $this->dispatch(new BuildOptions($this));
         }
 
-        return array_filter([null => $this->getPlaceholder()] + (array)$this->options);
+        return $this->options;
     }
 
     /**
