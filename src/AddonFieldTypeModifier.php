@@ -16,6 +16,23 @@ class AddonFieldTypeModifier extends FieldTypeModifier
 {
 
     /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    private $addons;
+
+    /**
+     * Create a new AddonFieldTypeModifier
+     *
+     * @param AddonCollection $addons
+     */
+    public function __construct(AddonCollection $addons)
+    {
+        $this->addons = $addons;
+    }
+
+    /**
      * Modify the value.
      *
      * @param  $value
@@ -42,8 +59,8 @@ class AddonFieldTypeModifier extends FieldTypeModifier
             return $value;
         }
 
-        if ($value && $addons = (new AddonCollection())->merged()) {
-            return $addons->get($value);
+        if ($value && $addon = $this->addons->get($value)) {
+            return $addon;
         }
 
         return null;

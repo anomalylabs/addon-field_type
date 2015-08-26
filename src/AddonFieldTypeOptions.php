@@ -21,11 +21,8 @@ class AddonFieldTypeOptions
      *
      * @param AddonFieldType $fieldType
      */
-    public function handle(AddonFieldType $fieldType)
+    public function handle(AddonFieldType $fieldType, AddonCollection $addons)
     {
-        // Get all addons.
-        $addons = (new AddonCollection())->merged();
-
         // Restrict to type if desired.
         if ($type = array_get($fieldType->getConfig(), 'type')) {
             $addons = $addons->{snake_case(str_plural($type))}();
