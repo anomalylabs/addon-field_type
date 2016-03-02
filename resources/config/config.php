@@ -2,8 +2,9 @@
 
 return [
     'type'       => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
+        'required' => true,
+        'type'     => 'anomaly.field_type.select',
+        'config'   => [
             'options' => [
                 'field_type' => 'streams::addon.field_types',
                 'extension'  => 'streams::addon.extensions',
