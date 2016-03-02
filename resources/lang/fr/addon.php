@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'name'        => 'Addon',
-    'description' => 'Type de champs proposant une sélection d\'addon.'
+    'title'       => 'Addon',
+    'name'        => 'Type de champs Addon',
+    'description' => 'Type de champs proposant la liste des addons.'
 ];
