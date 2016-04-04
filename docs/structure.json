@@ -1,0 +1,14 @@
+{
+    "setup": {
+        "title": {
+            "en": "General"
+        },
+        "documentation": {
+            "installation": {
+                "title": {
+                    "en": "General"
+                }
+            }
+        }
+    }
+}
