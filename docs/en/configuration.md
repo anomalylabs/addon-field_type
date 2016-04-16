@@ -1,18 +1,4 @@
-# Addon Field Type <br><small>anomaly.field_type.addon</small>
-
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Output](#output)
-
-
-<a name="introduction"></a>
-## Introduction
-
-The addon field type provides a addons dropdown input.
-
-
-<a name="configuration"></a>
-## Configuration
+# Configuration
 
 **Example Definition:**
 
@@ -51,17 +37,3 @@ The options handler callable string. Any valid callable class string can be used
 The handler is responsible for setting the available options on the field type instance.
 
 **NOTE:** This option can not be through the GUI configuration. 
-
-
-<a name="output"></a>
-## Output
-
-This field type returns the addon instance as a value. You may access the object as normal.
-
-**Examples:**
-
-    // Twig usage
-    {{ entry.example.namespace }} or {{ trans(entry.example.name) }}
-    
-    // API usage
-    $entry->example->getNamespace(); or trans($entry->example->getName());
