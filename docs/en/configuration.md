@@ -1,4 +1,4 @@
-# Addon Field Type
+# Addon Field Type <br><small>anomaly.field_type.addon</small>
 
 - [Introduction](#introduction)
 - [Configuration](#configuration)
@@ -7,8 +7,6 @@
 
 <a name="introduction"></a>
 ## Introduction
-
-`anomaly.field_type.addon`
 
 The addon field type provides a addons dropdown input.
 
