@@ -1,22 +1,31 @@
 # Configuration
 
-**Example Definition:**
+- [Basic Configuration](#basic)
+- [Extensions Configuration](#extensions)
 
-    protected $fields = [
-        'example' => [
-            'type'   => 'anomaly.field_type.addon',
-            'config' => [
-                'type'       => null,
-                'search'     => null,
-                'theme_type' => null,
-                'handler'    => 'Anomaly\AddonFieldType\AddonFieldTypeOptions@handle'
-            ]
+
+```
+protected $fields = [
+    'example' => [
+        'type'   => 'anomaly.field_type.addon',
+        'config' => [
+            'type'       => null,
+            'search'     => null,
+            'theme_type' => null,
+            'handler'    => 'Anomaly\AddonFieldType\AddonFieldTypeOptions@handle'
         ]
-    ];
+    ]
+];
+```
 
-### `type`
+<a name="basic"></a>
+## Basic Configuration
 
-The type of addons to display in the dropdown. Valid options are `null`, `module`, `theme`, `plugin`, `extension`, or `field_type`. The default value is `null`.
+### Addon Type
+
+`"type" => "modules"`
+
+Specify the type of addons to display in the dropdown. Valid options are `module`, `theme`, `plugin`, `extension`, or `field_type`. The default value is `null`. If `null` is provided then all addon types will display.
 
 ### `search`
 

@@ -2,8 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 
 /**
  * Class AddonFieldTypeOptions
@@ -24,22 +22,27 @@ class AddonFieldTypeOptions
     public function handle(AddonFieldType $fieldType, AddonCollection $addons)
     {
         // Restrict to type if desired.
-        if ($type = array_get($fieldType->getConfig(), 'type')) {
-            $addons = $addons->{snake_case(str_plural($type))}();
+        if ($type = $fieldType->config('type')) {
+            $addons = $addons->{$type = snake_case(str_plural($type))}();
         }
 
         // Search extensions if desired.
-        if ($addons instanceof ExtensionCollection && $search = array_get($fieldType->getConfig(), 'search')) {
+        if ($addons instanceof ExtensionCollection && $search = $fieldType->config('search')) {
             $addons = $addons->search($search);
         }
 
         // Enabled only if extension or module.
-        if ($addons instanceof ExtensionCollection || $addons instanceof ModuleCollection) {
+        if (in_array($type, ['modules', 'extensions']) && $fieldType->config('enabled', true) == true) {
             $addons = $addons->enabled();
         }
 
+        // Installed only if extension or module.
+        if (in_array($type, ['modules', 'extensions']) && $fieldType->config('installed', true) == true) {
+            $addons = $addons->installed();
+        }
+
         // Limit to theme type if desired.
-        if ($addons instanceof ThemeCollection && $type = array_get($fieldType->getConfig(), 'theme_type')) {
+        if (in_array($type, ['themes']) && $type = $fieldType->config('theme_type')) {
             $addons = $addons->{$type}();
         }
 
