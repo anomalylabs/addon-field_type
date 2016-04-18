@@ -60,7 +60,7 @@ Option handlers are responsible for setting the available options on the field t
 
 Custom handlers can be defined as a callable string.
 
-{{ code('php', '"handler" => "App/Example/MyAddons@handle"') }}
+{{ code('php', '"handler" => "App/Example/MyOptions@handle"') }}
 
 You can also define custom handlers as a closure.
 
@@ -86,12 +86,13 @@ protected $fields = [
 
 Building custom option handlers could not be easier. Simply create the class with the method you defined in the config option.
 
-{{ code('php', '"handler" => "App/Example/MyAddons@handle"') }}
+{{ code('php', '"handler" => "App/Example/MyOptions@handle"') }}
 
 The callable string is called via Laravel's service container. The {{ code('php', '$fieldType') }} is passed as an argument.
 
+<pre>
 {% code php %}
-class MyAddon
+class MyOptions
 {
 
     public function handle(AddonFieldType $fieldType)
@@ -104,3 +105,4 @@ class MyAddon
     }
 }
 {% endcode %}
+</pre>
