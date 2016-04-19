@@ -6,16 +6,21 @@
 
 <hr>
 
-{% code php %}
-protected $fields = [
-    "example" => [
-        "type"   => "anomaly.field_type.addon",
-        "config" => [
-            "type" => null
+Below is the full configuration available with defaults.
+
+    {% code php %}
+    protected $fields = [
+        "example" => [
+            "type"   => "anomaly.field_type.addon",
+            "config" => [
+                "type"       => null,
+                "search"     => null,
+                "theme_type" => null,
+                "handler"    => "Anomaly\AddonFieldType\Handler\DefaultHandler@handle"
+            ]
         ]
-    ]
-];
-{% endcode %}
+    ];
+    {% endcode %}
 
 <hr>
 
@@ -66,21 +71,21 @@ You can also define custom handlers as a closure.
 
 **Remember:** closures can not be stored in the database so you need to define closures in the form builder.
 
-{% code php %}
-protected $fields = [
-    "example" => [
-        "config" => [
-            "handler" => function (AddonFieldType $fieldType, ExampleModule $module) {
-                $fieldtype->setOptions(
-                    [
-                        "anomaly.module.example" => $module->getName()
-                    ]
-                );
-            }
+    {% code php %}
+    protected $fields = [
+        "example" => [
+            "config" => [
+                "handler" => function (AddonFieldType $fieldType, ExampleModule $module) {
+                    $fieldtype->setOptions(
+                        [
+                            "anomaly.module.example" => $module->getName()
+                        ]
+                    );
+                }
+            ]
         ]
-    ]
-];
-{% endcode %} 
+    ];
+    {% endcode %} 
 
 ### Building Custom Handlers
 
@@ -90,19 +95,16 @@ Building custom option handlers could not be easier. Simply create the class wit
 
 The callable string is called via Laravel's service container. The {{ code('php', '$fieldType') }} is passed as an argument.
 
-<pre>
-{% code php %}
-class MyOptions
-{
-
-    public function handle(AddonFieldType $fieldType)
+    {% code php %}
+    class MyOptions
     {
-        $fieldtype->setOptions(
-            [
-                "anomaly.module.example" => 'Example'
-            ]
-        );
+        public function handle(AddonFieldType $fieldType)
+        {
+            $fieldtype->setOptions(
+                [
+                    "anomaly.module.example" => 'Example'
+                ]
+            );
+        }
     }
-}
-{% endcode %}
-</pre>
+    {% endcode %}

@@ -1,17 +1,18 @@
-<?php namespace Anomaly\AddonFieldType;
+<?php namespace Anomaly\AddonFieldType\Handler;
 
+use Anomaly\AddonFieldType\AddonFieldType;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 
 /**
- * Class AddonFieldTypeOptions
+ * Class DefaultHandler
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\AddonFieldType
+ * @package       Anomaly\AddonFieldType\Handler
  */
-class AddonFieldTypeOptions
+class DefaultHandler
 {
 
     /**
