@@ -27,7 +27,7 @@ $entry->example = $module;
 The addon field type always returns `null` or an instance of the selected addon.
 
 {% code php %}
-echo $entry->example->getNamespace(); // "anomaly.module.files"
+$entry->example->getNamespace(); // "anomaly.module.files"
 {% endcode %}
 
 <hr>
