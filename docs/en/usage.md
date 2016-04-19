@@ -1,28 +1,30 @@
 # Usage
 
-- [API Usage](#api)
-- [Twig Usage](#twig)
+- [Setting Values](#mutator)
+- [Basic Output](#output)
+- [Presenter Output](#presenter)
 
 <hr>
 
-<a name="api"></a>
-## API Usage
-
-### Setting The Value
+<a name="mutator"></a>
+## Setting Values
 
 You can set the addon field type value with an addon's namespace.
 
 {{ code('php', '$entry->example = "anomaly.module.files"') }}
 
-Or you can set the value with the instance of an addon.
+You can also set the value with an instance of an addon.
 
 {% code php %}
-$entry->example = $collection->get("anomaly.module.files");
+$entry->example = $module;
 {% endcode %}
 
-### Using The Value
+<hr>
 
-The addon field type always returns `null` or an instance of an addon.
+<a name="output"></a>
+## Basic Output
+
+The addon field type always returns `null` or an instance of the selected addon.
 
 {% code php %}
 echo $entry->example->getNamespace(); // "anomaly.module.files"
@@ -30,13 +32,11 @@ echo $entry->example->getNamespace(); // "anomaly.module.files"
 
 <hr>
 
-<a name="twig"></a>
-## Twig Usage
+<a name="presenter"></a>
+## Presenter Output
 
-You can use the field type's value in Twig similar to how it's used via the API.
+When accessing the value from a decorated entry, like one in a view, the addon's presenter is returned instead.
 
-{{ code('php', '{{ entry.example.namespace }} // "anomaly.module.files"') }}
-
-**Remember:** you can literally call public methods too.
-
-{{ code('php', '{{ entry.example.getNamespace("test") }} // "anomaly.module.files::test"') }}
+{% code twig %}
+{% verbatim %}{{ entry.example.getNamespace() }} {# "anomaly.module.files" #}{% endverbatim %}
+{% endcode %}
