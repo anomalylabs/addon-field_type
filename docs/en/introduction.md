@@ -1,7 +1,12 @@
 # Addon Field Type 
 
+- [General Information](#general)
+
+<hr>
+
+<a name="general"></a>
+## General Information
+
 `anomaly.field_type.addon`
 
-The addon field type allows users to select any available addon as configured. It is often used as a hidden field to create a relation between an entry and an extension extensions.
-
-For example, the Pages module uses an addon field type for the relation between page types and the page handler extension to use for said page type.
+The addon field type provides a configurable select dropdown of addons. The field type acts very similar to a relationship between an addon and an entry.
