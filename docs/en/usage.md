@@ -40,3 +40,13 @@ When accessing the value from a decorated entry, like one in a view, the addon's
 {% code twig %}
 {% verbatim %}{{ entry.example.getNamespace() }} {# "anomaly.module.files" #}{% endverbatim %}
 {% endcode %}
+
+**Remember:** You can access presenter and object methods in valuated strings like table columns too.
+
+<pre>
+{% code php %}
+protected $columns = [
+    'entry.addon.namespace'
+];
+{% endcode %}
+</pre>
