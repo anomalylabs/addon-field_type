@@ -44,7 +44,7 @@ Specify the type of addons to display in the dropdown. Valid options are `module
 
 The extension search argument will search and return only extensions with a provision string that matches your search.
 
-For example, the and extension with {{ code('php', 'protected $provides = "anomaly.module.files::adapter.local";') }} *would* be included in the options.
+For example, an extension with {{ code('php', 'protected $provides = "anomaly.module.files::adapter.local";') }} *would* be included in the options.
 
 This is helpful for allowing users to pick an extension specifically built for an addon. Like a disk adapter for the Files module. 
 
