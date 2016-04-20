@@ -97,6 +97,10 @@ Building custom option handlers could not be easier. Simply create the class wit
 
 The callable string is called via Laravel's service container. The {{ code('php', '$fieldType') }} is passed as an argument.
 
+<div class="alert alert-primary">
+<strong>Note:</strong> Because handlers are called through Laravel's service container, you can automatically inject dependencies into the construct and method.
+</div>
+
     {% code php %}
     class MyOptions
     {
