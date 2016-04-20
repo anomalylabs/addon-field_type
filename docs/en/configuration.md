@@ -69,7 +69,9 @@ Custom handlers can be defined as a callable string.
 
 You can also define custom handlers as a closure.
 
-**Remember:** closures can not be stored in the database so you need to define closures in the form builder.
+<div class="alert alert-info">
+    <strong>Remember:</strong> Closures can not be stored in the database so you need to define closures in the form builder.
+</div>
 
     {% code php %}
     protected $fields = [
