@@ -8,24 +8,31 @@
 
 Below is the full configuration available with defaults.
 
-    {% code php %}
-    protected $fields = [
-        "example" => [
-            "type"   => "anomaly.field_type.addon",
-            "config" => [
-                "type"       => null,
-                "search"     => null,
-                "theme_type" => null,
-                "handler"    => "Anomaly\AddonFieldType\Handler\DefaultHandler@handle"
-            ]
+{% code php %}
+protected $fields = [
+    "example" => [
+        "type"   => "anomaly.field_type.addon",
+        "config" => [
+            "default_value" => null,
+            "type"          => null,
+            "search"        => null,
+            "theme_type"    => null,
+            "handler"       => "Anomaly\AddonFieldType\Handler\DefaultHandler@handle"
         ]
-    ];
-    {% endcode %}
+    ]
+];
+{% endcode %}
 
 <hr>
 
 <a name="basic"></a>
 ## Basic Configuration
+
+### Default Value
+
+{{ code('php', '"default_type" => false') }}
+
+The `default_value` is a core option. This field type accepts any module namespace like `anomaly.module.example`.
 
 ### Addon Type
 
@@ -46,7 +53,7 @@ The extension search argument will search and return only extensions with a prov
 
 For example, an extension with {{ code('php', 'protected $provides = "anomaly.module.files::adapter.local";') }} *would* be included in the options.
 
-This is helpful for allowing users to pick an extension specifically built for an addon. Like a disk adapter for the Files module. 
+This is helpful for allowing users to pick an extension specifically built for an addon. Like a disk adapter for the Files module.
 
 ### Theme Type
 
@@ -73,21 +80,21 @@ You can also define custom handlers as a closure.
     <strong>Remember:</strong> Closures can not be stored in the database so you need to define closures in the form builder.
 </div>
 
-    {% code php %}
-    protected $fields = [
-        "example" => [
-            "config" => [
-                "handler" => function (AddonFieldType $fieldType, ExampleModule $module) {
-                    $fieldtype->setOptions(
-                        [
-                            "anomaly.module.example" => $module->getName()
-                        ]
-                    );
-                }
-            ]
+{% code php %}
+protected $fields = [
+    "example" => [
+        "config" => [
+            "handler" => function (AddonFieldType $fieldType, ExampleModule $module) {
+                $fieldtype->setOptions(
+                    [
+                        "anomaly.module.example" => $module->getName()
+                    ]
+                );
+            }
         ]
-    ];
-    {% endcode %} 
+    ]
+];
+{% endcode %}
 
 ### Building Custom Handlers
 
@@ -97,16 +104,20 @@ Building custom option handlers could not be easier. Simply create the class wit
 
 The callable string is called via Laravel's service container. The {{ code('php', '$fieldType') }} is passed as an argument.
 
-    {% code php %}
-    class MyOptions
+<div class="alert alert-primary">
+<strong>Note:</strong> Because handlers are called through Laravel's service container, you can automatically inject dependencies into the construct and method.
+</div>
+
+{% code php %}
+class MyOptions
+{
+    public function handle(AddonFieldType $fieldType)
     {
-        public function handle(AddonFieldType $fieldType)
-        {
-            $fieldtype->setOptions(
-                [
-                    "anomaly.module.example" => 'Example'
-                ]
-            );
-        }
+        $fieldtype->setOptions(
+            [
+                "anomaly.module.example" => 'Example'
+            ]
+        );
     }
-    {% endcode %}
+}
+{% endcode %}
