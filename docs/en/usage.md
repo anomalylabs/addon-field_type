@@ -11,13 +11,11 @@
 
 You can set the addon field type value with an addon's namespace.
 
-{{ code('php', '$entry->example = "anomaly.module.files"') }}
+    $entry->example = "anomaly.module.files"
 
 You can also set the value with an instance of an addon.
 
-{% code php %}
-$entry->example = $module;
-{% endcode %}
+    $entry->example = $module;
 
 <hr>
 
@@ -26,9 +24,7 @@ $entry->example = $module;
 
 The addon field type always returns `null` or an instance of the selected addon.
 
-{% code php %}
-$entry->example->getNamespace(); // "anomaly.module.files"
-{% endcode %}
+    $entry->example->getNamespace(); // anomaly.module.files
 
 <hr>
 
@@ -37,16 +33,10 @@ $entry->example->getNamespace(); // "anomaly.module.files"
 
 When accessing the value from a decorated entry, like one in a view, the addon's presenter is returned instead.
 
-{% code twig %}
-{% verbatim %}{{ entry.example.getNamespace() }} {# "anomaly.module.files" #}{% endverbatim %}
-{% endcode %}
+    {% verbatim %}{{ entry.example.getNamespace() }} {# "anomaly.module.files" #}{% endverbatim %}
 
 **Remember:** You can access presenter and object methods in valuated strings like table columns too.
 
-<pre>
-{% code php %}
-protected $columns = [
-    'entry.addon.namespace'
-];
-{% endcode %}
-</pre>
+    protected $columns = [
+        "entry.addon.namespace"
+    ];
