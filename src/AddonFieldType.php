@@ -78,6 +78,10 @@ class AddonFieldType extends FieldType
      */
     public function getPlaceholder()
     {
-        return $this->placeholder ?: 'anomaly.field_type.addon::input.placeholder';
+        if (!$this->placeholder && !$this->isRequired()) {
+            return 'anomaly.field_type.addon::input.placeholder';
+        }
+
+        return $this->placeholder;
     }
 }
