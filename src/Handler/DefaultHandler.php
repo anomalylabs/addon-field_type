@@ -47,6 +47,6 @@ class DefaultHandler
             $addons = $addons->{$type}();
         }
 
-        $fieldType->setOptions($addons->lists('name', 'namespace')->all());
+        $fieldType->setOptions($addons->lists('title', 'namespace')->all());
     }
 }
