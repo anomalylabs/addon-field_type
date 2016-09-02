@@ -3,5 +3,5 @@
 return [
     'title'       => 'Tillägg',
     'name'        => 'Tillägsfälttyp',
-    'description' => 'En fälttyp för tillägg genom dropdown.'
+    'description' => 'En fälttyp för tillägg genom dropdown.',
 ];

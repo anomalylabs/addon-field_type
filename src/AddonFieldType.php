@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\AddonFieldType
  */
 class AddonFieldType extends FieldType
 {
@@ -34,7 +33,7 @@ class AddonFieldType extends FieldType
      * @var array
      */
     protected $config = [
-        'handler' => 'Anomaly\AddonFieldType\Handler\DefaultHandler@handle'
+        'handler' => 'Anomaly\AddonFieldType\Handler\DefaultHandler@handle',
     ];
 
     /**
@@ -61,7 +60,7 @@ class AddonFieldType extends FieldType
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param  array $options
      * @return $this
      */
     public function setOptions(array $options)

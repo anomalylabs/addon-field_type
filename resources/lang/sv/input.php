@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'placeholder' => 'Välj ett tillägg...'
+    'placeholder' => 'Välj ett tillägg...',
 ];

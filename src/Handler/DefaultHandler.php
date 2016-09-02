@@ -4,14 +4,6 @@ use Anomaly\AddonFieldType\AddonFieldType;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 
-/**
- * Class DefaultHandler
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\AddonFieldType\Handler
- */
 class DefaultHandler
 {
 
@@ -47,6 +39,6 @@ class DefaultHandler
             $addons = $addons->{$type}();
         }
 
-        $fieldType->setOptions($addons->lists('title', 'namespace')->all());
+        $fieldType->setOptions($addons->pluck('title', 'namespace')->all());
     }
 }

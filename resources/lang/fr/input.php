@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'placeholder' => 'Choisissez un addon'
+    'placeholder' => 'Choisissez un addon',
 ];
