@@ -2,7 +2,6 @@
 
 return [
     'type'       => [
-        'required' => true,
         'type'     => 'anomaly.field_type.select',
         'config'   => [
             'options' => [
