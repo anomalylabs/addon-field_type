@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class AddonFieldTypeModifier
@@ -15,7 +16,7 @@ class AddonFieldTypeModifier extends FieldTypeModifier
 {
 
     /**
-     * The addon collection.
+     * The addon collection.E
      *
      * @var AddonCollection
      */
@@ -39,8 +40,12 @@ class AddonFieldTypeModifier extends FieldTypeModifier
      */
     public function modify($value)
     {
+        if ($value instanceof Presenter) {
+            $value = $value->getObject();
+        }
+
         if ($value instanceof Addon) {
-            return $value->getNamespace();
+            $value = $value->getNamespace();
         }
 
         return $value;
