@@ -33,7 +33,7 @@ class AddonFieldType extends FieldType
      * @var array
      */
     protected $config = [
-        'handler' => 'Anomaly\AddonFieldType\Handler\DefaultHandler@handle',
+        'handler' => \Anomaly\AddonFieldType\Handler\DefaultHandler::class,
     ];
 
     /**
