@@ -95,6 +95,6 @@ class AddonFieldType extends FieldType
             return $class;
         }
 
-        return $this->config('mode') == 'dropdown' ? 'custom-select form-control' : 'form-control';
+        return 'custom-select form-control';
     }
 }
