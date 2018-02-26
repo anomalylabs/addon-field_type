@@ -2,14 +2,25 @@
 
 return [
     'type'       => [
-        'type'     => 'anomaly.field_type.select',
-        'config'   => [
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
             'options' => [
                 'field_type' => 'streams::addon.field_types',
                 'extension'  => 'streams::addon.extensions',
                 'module'     => 'streams::addon.modules',
                 'plugin'     => 'streams::addon.plugins',
                 'theme'      => 'streams::addon.themes',
+            ],
+        ],
+    ],
+    'mode'       => [
+        'required' => true,
+        'type'     => 'anomaly.field_type.select',
+        'config'   => [
+            'default_value' => 'dropdown',
+            'options'       => [
+                'dropdown' => 'anomaly.field_type.addon::config.mode.option.dropdown',
+                'search'   => 'anomaly.field_type.addon::config.mode.option.search',
             ],
         ],
     ],

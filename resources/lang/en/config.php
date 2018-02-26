@@ -6,6 +6,14 @@ return [
         'instructions' => 'What type of addons would you like to include?',
         'placeholder'  => 'All Addons',
     ],
+    'mode'       => [
+        'label'        => 'Mode',
+        'instructions' => 'What kind of input would you like to display?',
+        'option'       => [
+            'search'   => 'Search',
+            'dropdown' => 'Dropdown',
+        ],
+    ],
     'search'     => [
         'label'        => 'Search Extensions',
         'instructions' => 'If the "Extensions" addon type is selected, you can define an optional search parameter here to return only extensions providing a specific service.',

@@ -6,19 +6,26 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 /**
  * Class AddonFieldType
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class AddonFieldType extends FieldType
 {
+
+    /**
+     * The field type class.
+     *
+     * @var null
+     */
+    protected $class = null;
 
     /**
      * The input view.
      *
      * @var string
      */
-    protected $inputView = 'anomaly.field_type.addon::input';
+    protected $inputView = null;
 
     /**
      * The filter view.
@@ -85,6 +92,20 @@ class AddonFieldType extends FieldType
     }
 
     /**
+     * Return the input view.
+     *
+     * @return string
+     */
+    public function getInputView()
+    {
+        if ($view = parent::getInputView()) {
+            return $view;
+        }
+
+        return 'anomaly.field_type.addon::' . $this->config('mode', 'dropdown');
+    }
+
+    /**
      * Get the class.
      *
      * @return null|string
@@ -95,6 +116,9 @@ class AddonFieldType extends FieldType
             return $class;
         }
 
-        return 'custom-select form-control';
+        return $this->config('mode') == 'dropdown'
+            ? 'custom-select form-control'
+            : 'c-inputs-stacked';
     }
+
 }
