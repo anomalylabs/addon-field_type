@@ -40,6 +40,7 @@ class AddonFieldType extends FieldType
      * @var array
      */
     protected $config = [
+        'mode'    => 'dropdown',
         'handler' => \Anomaly\AddonFieldType\Handler\DefaultHandler::class,
     ];
 
