@@ -13,7 +13,10 @@ let mix = require('laravel-mix');
 
 mix
     .copy('node_modules/choices/choices.js', 'resources/js')
-    .sass('resources/scss/choices.scss', 'resources/css');
+    .sass('resources/scss/choices.scss', 'resources/css')
+    .options({
+        processCssUrls: false
+    });
 
 // Full API
 // mix.js(src, output);
