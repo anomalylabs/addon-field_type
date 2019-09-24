@@ -59,7 +59,7 @@ class AddonFieldType extends FieldType
     public function getOptions()
     {
         if ($this->options === null) {
-            $this->dispatch(new BuildOptions($this));
+            dispatch_now(new BuildOptions($this));
         }
 
         return $this->options;
@@ -121,5 +121,4 @@ class AddonFieldType extends FieldType
             ? 'custom-select form-control'
             : 'c-inputs-stacked';
     }
-
 }

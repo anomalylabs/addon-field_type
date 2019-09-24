@@ -3,7 +3,6 @@
 use Anomaly\AddonFieldType\AddonFieldType;
 use Illuminate\Container\Container;
 
-
 /**
  * Class BuildOptions
  *
@@ -26,7 +25,7 @@ class BuildOptions
      *
      * @param AddonFieldType $fieldType
      */
-    function __construct(AddonFieldType $fieldType)
+    public function __construct(AddonFieldType $fieldType)
     {
         $this->fieldType = $fieldType;
     }
