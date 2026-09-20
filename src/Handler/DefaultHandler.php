@@ -14,9 +14,11 @@ class DefaultHandler
      */
     public function handle(AddonFieldType $fieldType, AddonCollection $addons)
     {
+        $type = null;
+
         // Restrict to type if desired.
-        if ($type = $fieldType->config('type')) {
-            $addons = $addons->{$type = snake_case(str_plural($type))}();
+        if (in_array($configured = $fieldType->config('type'), (array)config('streams::addons.types'))) {
+            $addons = $addons->{$type = snake_case(str_plural($configured))}();
         }
 
         // Search extensions if desired.
@@ -35,8 +37,8 @@ class DefaultHandler
         }
 
         // Limit to theme type if desired.
-        if (in_array($type, ['themes']) && $type = $fieldType->config('theme_type')) {
-            $addons = $addons->{$type}();
+        if ($type === 'themes' && in_array($theme = $fieldType->config('theme_type'), ['admin', 'standard'])) {
+            $addons = $addons->{$theme}();
         }
 
         $fieldType->setOptions($addons->pluck('title', 'namespace')->all());
