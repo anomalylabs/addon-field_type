@@ -4,309 +4,156 @@
 
 #### An addon dropdown field type.
 
-The addon field type provides a specialized dropdown input for selecting PyroCMS addons with filtering capabilities.
+The addon field type provides a dropdown for selecting an installed PyroCMS addon, optionally
+restricted to a single addon type.
 
 ## Features
 
-- Select from installed addons in the system
-- Filter by addon type (module, field_type, extension, etc.)
-- Support for multiple selection modes (dropdown, search, tags)
-- Custom option handlers for different filtering strategies
-- Integration with the addon collection system
-- Automatic addon loading and validation
-- Database storage optimization
+- Select any installed addon, or restrict the list to one type
+- Two input modes: a plain dropdown or a searchable dropdown
+- Restrict themes to admin or standard
+- Restrict extensions by provides string
+- Custom option handlers for replacing the list entirely
+- Values decorate to the addon's presenter, so its namespace, type and slug are available
 
 ## Configuration
-
-### Basic Configuration
 
 ```php
 protected $fields = [
     'addon' => [
         'type'   => 'anomaly.field_type.addon',
         'config' => [
-            'type' => 'module' // Filter to only modules
-        ]
-    ]
-];
-```
-
-### Filter by Addon Type
-
-```php
-// Select only modules
-'module' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'module'
-    ]
-]
-
-// Select only field types
-'field_type' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'field_type'
-    ]
-]
-
-// Select only extensions
-'extension' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'extension'
-    ]
-]
-
-// Select only plugins
-'plugin' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'plugin'
-    ]
-]
-
-// Select only themes
-'theme' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'theme'
-    ]
-]
-```
-
-### Display Modes
-
-```php
-// Dropdown mode (default)
-'addon' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'mode' => 'dropdown'
-    ]
-]
-
-// Search mode (with autocomplete)
-'addon' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'mode' => 'search'
-    ]
-]
-
-// Tags mode (for visual distinction)
-'addon' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'mode' => 'tags'
-    ]
-]
-```
-
-### Custom Handler
-
-```php
-'addon' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'handler' => \App\MyCustomAddonHandler::class
-    ]
-]
-```
-
-## Usage Examples
-
-### Select Module Addon
-
-```php
-protected $fields = [
-    'featured_module' => [
-        'type'   => 'anomaly.field_type.addon',
-        'config' => [
             'type' => 'module',
-            'mode' => 'search'
-        ]
-    ]
+        ],
+    ],
 ];
 ```
 
-### Select Field Type
+| Key | Values | Description |
+|---|---|---|
+| `type` | `field_type`, `extension`, `module`, `plugin`, `theme` | Restrict the list to one addon type. Unset lists every addon. |
+| `mode` | `dropdown` (default), `search` | `search` renders a searchable dropdown. |
+| `theme_type` | `admin`, `standard` | Only applies when `type` is `theme`. |
+| `search` | a provides string | Only applies when `type` is `extension`. |
+| `handler` | a callable string or closure | Replaces the option list entirely. See below. |
+
+A `type` outside the list above is ignored and the list is left unrestricted.
+
+### Restricting Extensions
+
+`search` filters extensions by what they provide:
 
 ```php
-protected $fields = [
-    'custom_field' => [
-        'type'   => 'anomaly.field_type.addon',
-        'config' => [
-            'type' => 'field_type'
-        ]
-    ]
-];
+'authenticator' => [
+    'type'   => 'anomaly.field_type.addon',
+    'config' => [
+        'type'   => 'extension',
+        'search' => 'anomaly.module.users::authentication.*',
+    ],
+]
 ```
 
-### Select Theme with Search
+### Searchable Mode
 
 ```php
-protected $fields = [
-    'theme_override' => [
-        'type'   => 'anomaly.field_type.addon',
-        'config' => [
-            'type' => 'theme',
-            'mode' => 'search'
-        ]
-    ]
-];
+'addon' => [
+    'type'   => 'anomaly.field_type.addon',
+    'config' => [
+        'type' => 'module',
+        'mode' => 'search',
+    ],
+]
 ```
+
+### Custom Handlers
+
+`handler` replaces the option-building logic. It is a code-level option — it cannot be set from the
+field configuration form, and closures cannot be stored, so a closure handler must be set from a
+form builder.
+
+```php
+'addon' => [
+    'type'   => 'anomaly.field_type.addon',
+    'config' => [
+        'handler' => \App\MyAddonOptions::class, // @handle is assumed
+    ],
+]
+```
+
+```php
+class MyAddonOptions
+{
+    public function handle(AddonFieldType $fieldType)
+    {
+        $fieldType->setOptions(['anomaly.module.example' => 'Example']);
+    }
+}
+```
+
+Handlers are called through the service container, so method injection is supported. See
+`docs/en/01.introduction/02.configuration.md` for the full description.
 
 ## Accessing Values
 
-### In Twig Templates
+The stored value is the addon namespace. Reading it back gives the addon's presenter, which casts
+to that namespace:
 
 ```twig
-{# Get addon namespace #}
-{{ entry.addon }}
+{{ entry.addon }}              {# anomaly.module.pages #}
+{{ entry.addon.namespace }}    {# anomaly.module.pages #}
+{{ entry.addon.type }}         {# module #}
+{{ entry.addon.slug }}         {# pages #}
+```
 
-{# Get addon object #}
-{{ entry.getAddon().getName() }}
-{{ entry.getAddon().getTitle() }}
-{{ entry.getAddon().getDescription() }}
+`name`, `title` and `description` return **translation keys**, not translated text, so pass them
+through `trans`:
 
-{# Check if specific addon #}
-{% if entry.addon == 'anomaly.module.pages' %}
-    <p>This is the Pages module</p>
-{% endif %}
+```twig
+{{ trans(entry.addon.title) }}
+{{ trans(entry.addon.description) }}
 ```
 
 ### In PHP
 
 ```php
-$entry = $model->find(1);
+$addon = $entry->addon;
 
-// Get addon namespace (string)
-$namespace = $entry->addon;
+$addon->getNamespace();   // anomaly.module.pages
+$addon->getType();        // module
+$addon->getSlug();        // pages
 
-// Get addon object
-$addon = $entry->getAddon();
-
-// Access addon properties
-$name = $addon->getName();
-$title = $addon->getTitle();
-$description = $addon->getDescription();
-$type = $addon->getType();
-
-// Get the addon instance
-$instance = app($namespace);
+trans($addon->getTitle());
 ```
 
 ## Setting Values
 
-### In Forms
+Assign the namespace as a string:
 
 ```php
-$form = $builder->make('example.module.test');
-$form->on('saving', function(FormBuilder $builder) {
-    $entry = $builder->getFormEntry();
-    $entry->addon = 'anomaly.module.pages';
-});
-```
-
-### Direct Assignment
-
-```php
-$entry->addon = 'anomaly.module.users';
+$entry->addon = 'anomaly.module.pages';
 $entry->save();
 ```
 
 ## Database Structure
 
-The addon field type stores the addon namespace as:
-- **VARCHAR(255)** - The addon namespace (e.g., "anomaly.module.pages")
+The addon field type stores the addon namespace in a **VARCHAR(255)** column.
 
 ## Validation
 
-### Required Field
+The field type applies no rules of its own. Laravel's rules can be added as usual:
 
 ```php
 'addon' => [
     'type'  => 'anomaly.field_type.addon',
     'rules' => [
-        'required'
-    ]
-]
-```
-
-### Addon Exists
-
-```php
-'addon' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'module'
-    ],
-    'rules' => [
         'required',
-        'addon_exists:module'
-    ]
+    ],
 ]
 ```
 
-## Common Use Cases
-
-### Select Parent Module
-
-```php
-'parent_module' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'module',
-        'mode' => 'search'
-    ]
-]
-```
-
-### Select Field Type for Custom Fields
-
-```php
-'field_type' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'field_type'
-    ]
-]
-```
-
-### Select Extension for Integration
-
-```php
-'payment_extension' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'extension',
-        'mode' => 'dropdown'
-    ]
-]
-```
-
-### Select Theme Override
-
-```php
-'custom_theme' => [
-    'type'   => 'anomaly.field_type.addon',
-    'config' => [
-        'type' => 'theme',
-        'mode' => 'search'
-    ]
-]
-```
-
-## Best Practices
-
-1. **Filter by Type**: Always specify the addon type to limit options
-2. **Use Search Mode**: For systems with many addons, use search mode for better UX
-3. **Validate Existence**: Ensure selected addons are installed and enabled
-4. **Cache Results**: Consider caching addon lists for performance
-5. **Document Requirements**: Clearly document which addons are required
-6. **Handle Missing Addons**: Gracefully handle cases where selected addons are uninstalled
-7. **Namespace Consistency**: Always store and retrieve using full addon namespaces
+There is no built-in rule to assert that the selected addon is still installed. The dropdown is
+built from the installed addons at render time, but a value stored earlier is not re-checked, so
+handle a missing addon where you read it — an uninstalled namespace decorates to `null`.
 
 ## Requirements
 
